@@ -4,7 +4,7 @@ module.exports = {
   entry: './loop-learning-game.jsx',
   output: {
     filename: 'loop-learning-game.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, '.')
   },
   module: {
     rules: [
