@@ -133,6 +133,44 @@ function LoopMasterGame() {
     setRobotPosition(levels[currentLevel].startPosition);
     
     try {
+      // Walidacja: sprawdź, czy kod zawiera tylko dozwolone funkcje i konstrukcje
+      const allowedKeywords = [
+        'moveRight', 'moveLeft', 'moveUp', 'moveDown',
+        'for', 'let', 'const', 'var', 'if', 'else', 'while', 'do', 'switch', 'case', 'break',
+        'function', 'return', 'true', 'false', 'null', 'undefined', 'NaN',
+        'i', 'j', 'k', 'x', 'y', 'step', 'count', 'loop'
+      ];
+      
+      // Wyodrębnij wszystkie słowa kluczowe i identyfikatory z kodu
+      const codeWords = userCode.match(/\b[a-zA-Z_][a-zA-Z0-9_]*\b/g) || [];
+      const hasInvalidCode = codeWords.some(word => !allowedKeywords.includes(word));
+      
+      if (hasInvalidCode) {
+        throw new Error("Niedozwolony kod. Użyj tylko moveRight(), moveLeft(), moveUp(), moveDown() i pętli for/while.");
+      }
+      
+      // Sprawdź, czy kod nie zawiera potencjalnie niebezpiecznych wzorców
+      const dangerousPatterns = [
+        /\bnew\s+Function\b/i,
+        /\beval\s*\(/i,
+        /\bwindow\b/i,
+        /\bdocument\b/i,
+        /\blocalStorage\b/i,
+        /\bsessionStorage\b/i,
+        /\bfetch\s*\(/i,
+        /\bXMLHttpRequest\b/i,
+        /\brequire\s*\(/i,
+        /\bimport\s+/i,
+        /\bexport\s+/i,
+        /\b__dirname\b/i,
+        /\bprocess\b/i
+      ];
+      
+      const hasDangerousPattern = dangerousPatterns.some(pattern => pattern.test(userCode));
+      if (hasDangerousPattern) {
+        throw new Error("Niedozwolony kod. Użyj tylko dozwolonych funkcji ruchu i pętli.");
+      }
+      
       const moveRight = () => moveRobot('moveRight');
       const moveLeft = () => moveRobot('moveLeft');
       const moveUp = () => moveRobot('moveUp');
