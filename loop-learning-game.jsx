@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-
-// Komponent główny gry
+// Komponent główny gry (React jest ładowany z CDN, nie trzeba importować)
 function LoopMasterGame() {
+  const { useState, useEffect } = React;
   // Definicje poziomów
   const levels = [
     {
@@ -406,4 +405,5 @@ function LoopMasterGame() {
   );
 }
 
-export default LoopMasterGame;
+// Usuwamy export, bo kod jest ładowany bezpośrednio w HTML
+// (Babel CDN transpiluje JSX, a React jest dostępny globalnie)
